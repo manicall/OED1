@@ -18,7 +18,6 @@ x = np.array(df["X"])
 y = np.array(df["Y"])
 LnX = np.log(x[1:])
 LnY = np.log(y[1:])
-print(len(x))
 
 def M(y, fx):
     return np.sum([(y[i] + fx[i]) / 2 for i in range(len(y))]) / len(y)
@@ -30,7 +29,4 @@ def R(y, fx):
     m = M(y, fx)
     return 1 - SumSquare(y - fx) / SumSquare([y[i] - m for i in range(len(y))])
 
-
-fig, ax = plt.subplots()
-plt.grid()
 
