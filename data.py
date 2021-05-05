@@ -13,12 +13,12 @@ def SumProd(x,y):
 a0 = lambda x, y: ((SumSquare(x) * np.sum(y) - np.sum(x) * SumProd(x,y)) / (len(x) * SumSquare(x) - SquareSum(x)))
 a1 = lambda x, y: ((len(x) * SumProd(x,y) - np.sum(x)*np.sum(y))/(len(x)*SumSquare(x)-SquareSum(x)))
 
-df = pandas.read_excel("данные.xlsx")
+df = pandas.read_excel("DATA.xlsx")
 x = np.array(df["X"])
 y = np.array(df["Y"])
 LnX = np.log(x[1:])
 LnY = np.log(y[1:])
-
+print(len(x))
 
 def M(y, fx):
     return np.sum([(y[i] + fx[i]) / 2 for i in range(len(y))]) / len(y)
