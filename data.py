@@ -28,7 +28,7 @@ def D(y, fx):
 
 def R(y, fx):
     m = M(y, fx)
-    return 1 - SumSquare(y - fx) /SumSquare([y[i] - m for i in range(len(y))])
+    return 1 - SumSquare(y - fx) / SumSquare([y[i] - m for i in range(len(y))])
 
 
 fig, ax = plt.subplots()
