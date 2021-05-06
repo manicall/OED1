@@ -5,15 +5,15 @@ from data import *
 
 class Model(QtGui.QStandardItemModel):
     def __init__(self):
-        QtGui.QStandardItemModel.__init__(self,len(x), 2)
+        QtGui.QStandardItemModel.__init__(self, 2, len(x))
         # инициализация
         # заполнение ячеек пустым текстом, чтобы их можно было закрасить
         for i in enumerate(x):
-            self.setItem(i[0], 0, self.get_item(str(i[1])))
+            self.setItem(0, i[0], self.get_item(str(round(i[1]))))
         for i in enumerate(y):
-            self.setItem(i[0], 1, self.get_item(str(i[1])))
+            self.setItem(1, i[0], self.get_item(str(i[1])))
         # изменение заголовков
-        self.setHorizontalHeaderLabels(["X", "Y"])
+        self.setVerticalHeaderLabels(["X", "Y"])
 
     @staticmethod
     def get_item(str):
@@ -26,6 +26,12 @@ class Model(QtGui.QStandardItemModel):
 class Table(QtWidgets.QTableView):
     def __init__(self):
         QtWidgets.QTableView.__init__(self)
+        self.setFixedSize(700,90)
+        self.horizontalHeader().setStyleSheet( "border-top:0px solid #D8D8D8;"
+            "border-left:0px solid #D8D8D8;"
+            "border-right:1px solid #D8D8D8;"
+            "border-bottom: 1px solid #D8D8D8;"
+            "background-color:white;")
         model = Model()
         self.setModel(model)
         for i in range(model.columnCount()):
@@ -38,38 +44,75 @@ class MplCanvas(FigureCanvasQTAgg):
         self.axes = self.fig.add_subplot(111)
         self.axes.set_xlabel("X")
         self.axes.set_ylabel("Y")
+        self.axes.grid()
         super(MplCanvas, self).__init__(self.fig)
+
+
+
+
 
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
+
+        # parent_layout===============================================
+        self.LeftLayout = QtWidgets.QVBoxLayout()
+        self.LeftLayout.addLayout(self.GetGrid())
+        self.LeftLayout.addLayout(self.GetPushButtonLayout())
+
+        self.GraphicLayout = self.GetGraphicLayout()
+        self.parent_layout = QtWidgets.QHBoxLayout()
+        self.parent_layout.addLayout(self.LeftLayout)
+        self.parent_layout.addLayout(self.GraphicLayout)
+
+        self.grid_ListView = QtWidgets.QGridLayout()
+
+        self.main_Layout = QtWidgets.QVBoxLayout()
+        self.main_Layout.addLayout(self.parent_layout)
+        self.main_Layout.addWidget(Table())
+
+        # widget==============================================
+        widget = QtWidgets.QWidget()
+        widget.setLayout(self.main_Layout)
+        self.setCentralWidget(widget)
+        self.show()
+
+    def GetPushButtonLayout(self):
+        PushButtons = [QtWidgets.QPushButton() for i in range(3)]
+        PushButtons[0].setText("Линейная аппроксимация")
+        PushButtons[1].setText("Степенная аппроксимация")
+        PushButtons[2].setText("Экспоненциальная аппроксимация")
+        PushButtons[0].clicked.connect(self.LinearAp)
+        PushButtons[1].clicked.connect(self.PowAp)
+        PushButtons[2].clicked.connect(self.ExpAp)
+
+        layout = QtWidgets.QVBoxLayout()
+        for button in PushButtons:
+            layout.addWidget(button)
+        return layout
+
+    def GetGraphicLayout(self):
         self.funcs = None
         sc = MplCanvas()
         self.old_sc = sc
-        toolbar = NavigationToolbar(sc, self)
-        # menubar============================================
-        menuBar = self.menuBar()
-        action = menuBar.addAction("Линейная аппроксимация", self.LinearAp)
-        action = menuBar.addAction("Степенная аппроксимация", self.PowAp)
-        action = menuBar.addAction("Экспоненциальная аппроксимация", self.ExpAp)
+        layout = QtWidgets.QHBoxLayout()
+        layout.addWidget(sc)
+        return layout
 
-        # grid2=============================================
-        self.grid1 = QtWidgets.QGridLayout()
+    def GetGrid(self):
+        grid = QtWidgets.QGridLayout()
         # формирование списка label
         Qlabels = [QtWidgets.QLabel("") for i in range(6)]
-        for label in Qlabels:
-            label.setAlignment(QtCore.Qt.AlignHCenter)
         Qlabels[0].setText("a")
         Qlabels[1].setText("b")
         Qlabels[2].setText("M")
         Qlabels[3].setText("D")
         Qlabels[4].setText("R")
         Qlabels[5].setText("Y")
-        Qlabels[5].setFixedWidth(150)
         # добавление label на слой
         for label in enumerate(Qlabels):
-            self.grid1.addWidget(label[1], 0, label[0])
+            grid.addWidget(label[1], label[0], 0)
         # формирование списка edit
         self.grid_lineEdits = []
         self.grid_lineEdits = [QtWidgets.QLineEdit("") for i in range(6)]
@@ -78,47 +121,20 @@ class MainWindow(QtWidgets.QMainWindow):
             edit.setReadOnly(True)
         # добавление edit на слой
         for edit in enumerate(self.grid_lineEdits):
-            self.grid1.addWidget(edit[1], 1, edit[0])
-        # child_layout===============================================
-        self.child_layout = QtWidgets.QVBoxLayout()
-        self.child_layout.addWidget(toolbar)
-        self.child_layout.addWidget(sc)
-        # parent_layout===============================================
-        self.parent_layout = QtWidgets.QVBoxLayout()
-        self.parent_layout.addLayout(self.grid1)
-        self.parent_layout.addLayout(self.child_layout)
+            grid.addWidget(edit[1], edit[0], 1)
 
-        self.grid_ListView = QtWidgets.QGridLayout()
-
-        self.main_Layout = QtWidgets.QHBoxLayout()
-        self.main_Layout.addWidget(Table())
-        self.main_Layout.addLayout(self.parent_layout)
-
-        # widget==============================================
-        widget = QtWidgets.QWidget()
-        widget.setLayout(self.main_Layout)
-        self.setCentralWidget(widget)
-
-        self.show()
+        grid.setAlignment(QtCore.Qt.AlignTop)
+        return grid
 
     def add_graphic(self, x, y, fx):
         sc = MplCanvas()
-        toolbar = NavigationToolbar(sc, self)
-        for i in range(self.child_layout.count()):
-            self.child_layout.takeAt(0).widget().deleteLater()
-        self.child_layout.addWidget(toolbar)
-        self.child_layout.addWidget(sc)
+        for i in range(self.GraphicLayout.count()):
+            self.GraphicLayout.takeAt(0).widget().deleteLater()
+        self.GraphicLayout.addWidget(sc)
         sc.axes.plot(x, y)
-        sc.axes.plot(x, fx)
+        sc.axes.plot(x, fx, color='red', linestyle=':')
 
     def LinearAp(self):
-        sc = MplCanvas()
-        toolbar = NavigationToolbar(sc, self)
-        for i in range(self.child_layout.count()):
-            self.child_layout.takeAt(0).widget().deleteLater()
-        self.child_layout.addWidget(toolbar)
-        self.child_layout.addWidget(sc)
-
         a = a0(x, y)
         b = a1(x, y)
 
