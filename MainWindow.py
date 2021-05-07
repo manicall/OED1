@@ -148,7 +148,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.grid_lineEdits[2].setText(str(M(y[1:], fx)))
         self.grid_lineEdits[3].setText(str(D(y[1:], fx)))
         self.grid_lineEdits[4].setText(str(R(y[1:], fx)))
-        self.grid_lineEdits[5].setText(f'{round(b, 4)}^(x)*{round(a, 4)}')
+        self.grid_lineEdits[5].setText(f'{round(a, 4)}*x^({(round(b, 4))})')
         self.add_graphic(x[1:], y[1:], fx)
 
     def ExpAp(self):
