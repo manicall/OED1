@@ -1,7 +1,7 @@
 
-npython:S1542"ORename function "SumSquare" to match the regular expression ^[a-z_][a-z0-9_]*$.(ýšŽë8†š†å“/
-kpython:S1542"GRename function "M" to match the regular expression ^[a-z_][a-z0-9_]*$.(£Å×êùÿÿÿÿ8†š†å“/
-fpython:S1542"GRename function "R" to match the regular expression ^[a-z_][a-z0-9_]*$.(ôÍƒó8†š†å“/
-fpython:S1542"GRename function "D" to match the regular expression ^[a-z_][a-z0-9_]*$.(×ÂŠÌ8†š†å“/
-spython:S1542"ORename function "SquareSum" to match the regular expression ^[a-z_][a-z0-9_]*$.(ö¦•†ùÿÿÿÿ8†š†å“/
 qpython:S1542	"MRename function "SumProd" to match the regular expression ^[a-z_][a-z0-9_]*$.(šÂš“øÿÿÿÿ8†š†å“/
+kpython:S1542"GRename function "M" to match the regular expression ^[a-z_][a-z0-9_]*$.(£Å×êùÿÿÿÿ8†š†å“/
+fpython:S1542"GRename function "D" to match the regular expression ^[a-z_][a-z0-9_]*$.(×ÂŠÌ8†š†å“/
+spython:S1542"ORename function "SquareSum" to match the regular expression ^[a-z_][a-z0-9_]*$.(ö¦•†ùÿÿÿÿ8†š†å“/
+npython:S1542"ORename function "SumSquare" to match the regular expression ^[a-z_][a-z0-9_]*$.(ýšŽë8†š†å“/
+fpython:S1542"GRename function "R" to match the regular expression ^[a-z_][a-z0-9_]*$.(ôÍƒó8†š†å“/

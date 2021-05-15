@@ -1,0 +1,8 @@
+
+Bpython:S1481j"%Remove the unused local variable "i".(¤€çÖþÿÿÿÿ
+>python:S1481†"%Remove the unused local variable "i".(ßç®Ñ
+tpython:S117j"XRename this local variable "Qlabels" to match the regular expression ^[_a-z][a-z0-9_]*$.(¤€çÖþÿÿÿÿ
+dpython:S2208"GImport only needed names or import the module and then use its members.(ú£ú‚úÿÿÿÿ
+<python:S1481R"%Remove the unused local variable "i".(•Ùì0
+Bpython:S1481y"%Remove the unused local variable "i".(•ë˜èûÿÿÿÿ
+rpython:S117R"\Rename this local variable "PushButtons" to match the regular expression ^[_a-z][a-z0-9_]*$.(•Ùì0
