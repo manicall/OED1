@@ -26,7 +26,7 @@ class Model(QtGui.QStandardItemModel):
 class Table(QtWidgets.QTableView):
     def __init__(self):
         QtWidgets.QTableView.__init__(self)
-        self.setFixedSize(700,90)
+        self.setFixedSize(950,90)
         self.horizontalHeader().setStyleSheet( "border-top:0px solid #D8D8D8;"
             "border-left:0px solid #D8D8D8;"
             "border-right:1px solid #D8D8D8;"
@@ -57,13 +57,13 @@ class MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QMainWindow.__init__(self, parent)
 
         # parent_layout===============================================
-        self.LeftLayout = QtWidgets.QVBoxLayout()
-        self.LeftLayout.addLayout(self.GetGrid())
-        self.LeftLayout.addLayout(self.GetPushButtonLayout())
-
+        self.VerticalLayout = QtWidgets.QVBoxLayout()
+        self.VerticalLayout.addLayout(self.GetGrid())
         self.GraphicLayout = self.GetGraphicLayout()
+        self.VerticalLayout.addLayout(self.GraphicLayout)
+        self.VerticalLayout.addLayout(self.GetPushButtonLayout())
         self.parent_layout = QtWidgets.QHBoxLayout()
-        self.parent_layout.addLayout(self.LeftLayout)
+        self.parent_layout.addLayout(self.VerticalLayout)
         self.parent_layout.addLayout(self.GraphicLayout)
 
         self.grid_ListView = QtWidgets.QGridLayout()
@@ -112,7 +112,10 @@ class MainWindow(QtWidgets.QMainWindow):
         Qlabels[5].setText("Y")
         # добавление label на слой
         for label in enumerate(Qlabels):
-            grid.addWidget(label[1], label[0], 0)
+            label[1].setMinimumWidth(150)
+            label[1].setAlignment(QtCore.Qt.AlignCenter)
+            grid.addWidget(label[1], 0, label[0])
+
         # формирование списка edit
         self.grid_lineEdits = []
         self.grid_lineEdits = [QtWidgets.QLineEdit("") for i in range(6)]
@@ -121,7 +124,7 @@ class MainWindow(QtWidgets.QMainWindow):
             edit.setReadOnly(True)
         # добавление edit на слой
         for edit in enumerate(self.grid_lineEdits):
-            grid.addWidget(edit[1], edit[0], 1)
+            grid.addWidget(edit[1], 1, edit[0])
 
         grid.setAlignment(QtCore.Qt.AlignTop)
         return grid
@@ -131,7 +134,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for i in range(self.GraphicLayout.count()):
             self.GraphicLayout.takeAt(0).widget().deleteLater()
         self.GraphicLayout.addWidget(sc)
-        sc.axes.plot(x, y)
+        sc.axes.plot(x, y, color='black')
         sc.axes.plot(x, fx, color='red', linestyle=':')
 
     def LinearAp(self):
